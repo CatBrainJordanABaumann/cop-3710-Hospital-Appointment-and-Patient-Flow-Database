@@ -6,6 +6,8 @@ Database for hospital appointment scheduling, optimization, and analysis
 Provide a system for scheduling medical appointments
 Minimize the amount of no-shows to medical appointments
 Analyze and report the probability of medical appointments being attended
+Track relationships between patients and doctors
+Track locker ownership
 
 # Users
 Doctors
