@@ -17,3 +17,6 @@ Potentially anybody receiving or rescheduling an appointment
 
 # Data Sources
 https://www.kaggle.com/datasets/joniarroba/noshowappointments
+
+# ER Diagram
+https://github.com/CatBrainJordanABaumann/cop-3710-Hospital-Appointment-and-Patient-Flow-Database/blob/main/database_er.md
