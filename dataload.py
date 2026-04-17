@@ -10,8 +10,8 @@ def fetch_data(table_name: str, conn: oracledb.Connection):
 
 
 LIB_DIR = r"C:\oracle\instantclient_11_2"
-DB_USER = "system"
-DB_PASS = "GoofyGoober25"
+DB_USER = input("Username: ")
+DB_PASS = input("Password:")
 DB_DSN = "localhost:1521/xe"
 
 
