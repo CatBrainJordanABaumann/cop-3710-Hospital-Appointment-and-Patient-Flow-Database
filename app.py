@@ -1,12 +1,23 @@
 from dataload import *
 import streamlit as st
 
-conn, cursor = open_connection()
-load_lockers(cursor)
-load_doctors(cursor)
-load_patients(cursor)
-load_appointments(cursor)
-load_patient_doctors(cursor)
+if "conn" not in st.session_state or "cursor" not in st.session_state:
+    st.session_state["conn"], st.session_state["cursor"] = open_connection()
+
+if "loaded_data" not in st.session_state or not st.session_state["loaded_data"]:
+    print("Starting Load")
+    load_lockers(st.session_state["cursor"])
+    print("Lockers Loaded")
+    load_doctors(st.session_state["cursor"])
+    print("Doctors Loaded")
+    load_patients(st.session_state["cursor"])
+    print("Patients Loaded")
+    load_appointments(st.session_state["cursor"])
+    print("Appointments Loaded")
+    load_patient_doctors(st.session_state["cursor"])
+    print("Patient-Doctor Loaded")
+    print("Loading Complete")
+    st.session_state["loaded_data"] = True
 
 st.title("Medical Appointment and Patient Flow Database")
 
@@ -39,7 +50,7 @@ if funct == "1. Appointment Count per Patient":
             WHERE p.patient_id = :patient_id
             GROUP BY p.patient_id
         """
-        df = pd.read_sql_query(query, conn, params={"patient_id": int(patient_id_input)})
+        df = pd.read_sql_query(query, st.session_state["conn"], params={"patient_id": int(patient_id_input)})
         if df.empty:
             st.warning("No patient found with that ID.")
         else:
@@ -65,7 +76,7 @@ elif funct == "2. Doctors Ranked by Patient Count":
             )
             ORDER BY doctor_rank
         """
-        df = pd.read_sql_query(query, conn)
+        df = pd.read_sql_query(query, st.session_state["conn"])
         st.dataframe(df)
 
 
@@ -87,7 +98,7 @@ elif funct == "3. Patients in an Age Range":
             ORDER BY p.age
         """
         df = pd.read_sql_query(
-            query, conn, params={"age_min": int(age_min), "age_max": int(age_max)}
+            query, st.session_state["conn"], params={"age_min": int(age_min), "age_max": int(age_max)}
         )
         st.success(f"Found **{len(df)}** patient(s) between ages {int(age_min)} and {int(age_max)}.")
         st.dataframe(df)
@@ -118,7 +129,7 @@ elif funct == "4. Random Patient Profile":
     )
     WHERE ROWNUM = 1
 """
-        df = pd.read_sql_query(query, conn)
+        df = pd.read_sql_query(query, st.session_state["conn"])
         st.success(f"Randomly selected Patient ID: **{int(df['PATIENT_ID'].iloc[0])}**")
         st.dataframe(df)
 
@@ -139,7 +150,7 @@ elif funct == "5. Appointments on a Specific Day":
             WHERE appointment_day LIKE :target_day || '%'
             GROUP BY appointment_day
         """
-        df = pd.read_sql_query(query, conn, params={"target_day": target_day.strip()})
+        df = pd.read_sql_query(query, st.session_state["conn"], params={"target_day": target_day.strip()})
         if df.empty:
             st.warning(f"No appointments found for '{target_day}'.")
         else:
