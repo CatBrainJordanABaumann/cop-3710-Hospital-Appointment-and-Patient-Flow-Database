@@ -3,16 +3,15 @@
 Database for hospital appointment scheduling, optimization, and analysis
 
 # High-Level Goals:
-Provide a system for scheduling medical appointments
-Minimize the amount of no-shows to medical appointments
-Analyze and report the probability of medical appointments being attended
-Track relationships between patients and doctors
-Track locker ownership
+Provide a system for analyzing medical appointments  
+Track relationships between patients and doctors  
+Track locker ownership  
+Provide tools for analyzing doctors and patients
 
 # Users
-Doctors
-Nurses
-Medical coordinators like hospital staff
+Doctors  
+Nurses  
+Medical coordinators like hospital staff  
 Potentially anybody receiving or rescheduling an appointment
 
 # Data Sources
